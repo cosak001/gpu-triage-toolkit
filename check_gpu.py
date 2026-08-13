@@ -1,6 +1,6 @@
 import subprocess
 
-def get_gpu_name(_):
+def get_gpu_name():
     "Run nvidia_smi and pullout GPU name."
     result = subprocess.run( ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], 
                             capture_output = True, 
