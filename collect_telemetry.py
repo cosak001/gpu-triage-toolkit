@@ -11,6 +11,7 @@ QUERY_FIELDS = [
     "memory.total",
     "temperature.gpu",
     "power.draw",
+    "power.limit",
 ]
 
 def get_reading():
@@ -26,9 +27,15 @@ def get_reading():
     raw_values = result.stdout.strip().split(",")
 
     # Pair each field name with its value and convert to a number.
+    # Some fields (like power.limit on certain laptop GPUs) can return
+    # "[N/A]". Handle those gracefully by storing None instead of crashing.
     reading = {"timestamp": datetime.now().isoformat()}
     for field, value in zip(QUERY_FIELDS, raw_values):
-        reading[field] = float(value.strip())
+        cleaned = value.strip()
+        try:
+            reading[field] = float(cleaned)
+        except ValueError:
+            reading[field] = None
 
     return reading
 
