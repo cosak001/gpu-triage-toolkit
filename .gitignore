@@ -13,3 +13,7 @@ Thumbs.db
 
 # VS Code Run helper
 tempCodeRunnerFile.py
+
+# Generated reports (keep only curated samples)
+report_*.json
+report_*.md
